@@ -35,6 +35,14 @@ const inpBusinessIdea    = document.getElementById('inp-business-idea');
 const inpLocation        = document.getElementById('inp-location');
 const inpBudgetMin       = document.getElementById('inp-budget-min');
 const inpBudgetMax       = document.getElementById('inp-budget-max');
+
+function formatBudgetInput(e) {
+  const raw = e.target.value.replace(/\D/g, '');
+  e.target.value = raw ? parseInt(raw, 10).toLocaleString('id-ID') : '';
+}
+inpBudgetMin.addEventListener('input', formatBudgetInput);
+inpBudgetMax.addEventListener('input', formatBudgetInput);
+
 const inpBusinessModel   = document.getElementById('inp-business-model');
 const inpExperienceLevel = document.getElementById('inp-experience-level');
 const inpRiskTolerance   = document.getElementById('inp-risk-tolerance');
@@ -341,8 +349,8 @@ btnStart.addEventListener('click', async () => {
   const targetAudience = inpTargetAudience.value.trim();
   const businessIdea   = inpBusinessIdea.value.trim();
   const location       = inpLocation.value.trim();
-  const budgetMin      = inpBudgetMin.value.trim();
-  const budgetMax      = inpBudgetMax.value.trim();
+  const budgetMin      = inpBudgetMin.value.replace(/\./g, '').trim();
+  const budgetMax      = inpBudgetMax.value.replace(/\./g, '').trim();
   const budgetRange    = budgetMin && budgetMax
     ? `Rp ${parseInt(budgetMin).toLocaleString('id-ID')} – Rp ${parseInt(budgetMax).toLocaleString('id-ID')}`
     : '';
