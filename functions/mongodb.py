@@ -16,7 +16,7 @@ from langchain_core.messages import (
 from pymongo import MongoClient
 
 from states.schema import (
-    BussinessConstraints,
+    BusinessConstraints,
     EBPState,
     EthicsAnalysisReport,
     FinancialAnalysisReport,
@@ -144,7 +144,7 @@ def load_state(state_id: str) -> Optional[EBPState]:
     return EBPState(
         state_id=doc["state_id"],
         user_id=doc["user_id"],
-        bussiness_constraints=_dataclass_from_dict(BussinessConstraints, doc.get("bussiness_constraints")),
+        bussiness_constraints=_dataclass_from_dict(BusinessConstraints, doc.get("bussiness_constraints")),
         market_scout_report=_dataclass_from_dict(MarketScoutReport, doc.get("market_scout_report")),
         strategic_report=_dataclass_from_dict(StrategicReport, doc.get("strategic_report")),
         financial_analysis_report=_dataclass_from_dict(FinancialAnalysisReport, doc.get("financial_analysis_report")),
@@ -229,7 +229,7 @@ def get_session_detail(state_id: str) -> Optional[dict]:
 
 
 def create_new_state(
-    constraints: BussinessConstraints,
+    constraints: BusinessConstraints,
     user_id: str = "default_user",
     max_iterations: int = 3,
 ) -> EBPState:

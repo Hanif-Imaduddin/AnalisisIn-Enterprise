@@ -54,7 +54,7 @@ Seluruh data sesi dikelola melalui `EBPState`, sebuah `TypedDict` LangGraph yang
 |-------|------|------------|
 | `state_id` | `str` | Identifikasi unik sesi (UUID) |
 | `user_id` | `str` | Identifikasi pengguna |
-| `bussiness_constraints` | `BussinessConstraints` | Input awal dari pengguna |
+| `bussiness_constraints` | `BusinessConstraints` | Input awal dari pengguna |
 | `market_scout_report` | `MarketScoutReport` | Laporan riset pasar |
 | `strategic_report` | `StrategicReport` | Laporan analisis strategis |
 | `financial_analysis_report` | `FinancialAnalysisReport` | Laporan analisis keuangan |
@@ -165,7 +165,7 @@ File `test_system.ipynb` adalah notebook Jupyter yang digunakan untuk menguji se
 | Seksi | Nama | Deskripsi |
 |-------|------|-----------|
 | 1 | Imports & Environment | Memverifikasi ketersediaan semua paket yang dibutuhkan |
-| 2 | State Schema | Menguji pembuatan dataclass `BussinessConstraints`, seluruh dataclass laporan, dan `EBPState` |
+| 2 | State Schema | Menguji pembuatan dataclass `BusinessConstraints`, seluruh dataclass laporan, dan `EBPState` |
 | 3 | Utility Functions | Menguji fungsi `extract_json` (parsing JSON dari respons LLM) dan `format_constraints` |
 | 4 | LLM Connectivity | Menguji koneksi ke DeepInfra API dan memverifikasi model Qwen dapat merespons |
 | 5 | Internet Search Tool | Menguji alat `internet_search` terhadap BrightData SERP API dengan kueri nyata |

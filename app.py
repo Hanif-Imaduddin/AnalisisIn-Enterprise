@@ -24,7 +24,7 @@ from functions.auth import (
     require_admin,
     _decode_token,
 )
-from functions.mongodb import BussinessConstraints, create_new_state, get_session_detail, list_sessions, save_state
+from functions.mongodb import BusinessConstraints, create_new_state, get_session_detail, list_sessions, save_state
 from functions.postgres import (
     count_today_analyses,
     log_analysis,
@@ -382,7 +382,7 @@ async def start_session(req: StartRequest, current_user: dict = Depends(get_curr
                 f"Batas analisis harian ({DAILY_ANALYSIS_LIMIT}x) sudah tercapai. Coba lagi besok.",
             )
 
-    constraints = BussinessConstraints(
+    constraints = BusinessConstraints(
         sector_and_domain=req.sector_and_domain,
         audience=req.audience,
         initial_prompt=req.initial_prompt,
