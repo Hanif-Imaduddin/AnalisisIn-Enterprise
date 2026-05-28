@@ -38,7 +38,7 @@ def build_graph() -> StateGraph:
     workflow.add_node("strategic_architect", strategic_architect_node)
     workflow.add_node("financial_analyst", financial_analyst_node)
     workflow.add_node("ethics_agent", ethics_agent_node)
-    workflow.add_node("validation_layer", validation_layer_node))
+    workflow.add_node("validation_layer", validation_layer_node)
     workflow.add_node("final_summary", final_summary_node)
 
     # Entry point

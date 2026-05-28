@@ -30,8 +30,14 @@ const runningIndicator   = document.getElementById('running-indicator');
 const runningAgent       = document.getElementById('running-current-agent');
 
 const inpSector          = document.getElementById('inp-sector');
-const inpAudience        = document.getElementById('inp-audience');
-const inpPrompt          = document.getElementById('inp-prompt');
+const inpTargetAudience  = document.getElementById('inp-target-audience');
+const inpBusinessIdea    = document.getElementById('inp-business-idea');
+const inpLocation        = document.getElementById('inp-location');
+const inpBudgetMin       = document.getElementById('inp-budget-min');
+const inpBudgetMax       = document.getElementById('inp-budget-max');
+const inpBusinessModel   = document.getElementById('inp-business-model');
+const inpExperienceLevel = document.getElementById('inp-experience-level');
+const inpRiskTolerance   = document.getElementById('inp-risk-tolerance');
 const inpIterations      = document.getElementById('inp-iterations');
 const btnStart           = document.getElementById('btn-start');
 
@@ -299,7 +305,8 @@ function handleEvent(event) {
 function enableInputs(enabled) {
   _session_running = !enabled;
   btnNewSession.disabled = !enabled;
-  [inpSector, inpAudience, inpPrompt, inpIterations, btnStart].forEach(el => {
+  [inpSector, inpTargetAudience, inpBusinessIdea, inpLocation, inpBudgetMin, inpBudgetMax,
+   inpBusinessModel, inpExperienceLevel, inpRiskTolerance, inpIterations, btnStart].forEach(el => {
     el.disabled = !enabled;
   });
 }
@@ -330,11 +337,17 @@ connectSSE();
 
 // ── Start analysis ─────────────────────────────────────────────────────────────
 btnStart.addEventListener('click', async () => {
-  const sector   = inpSector.value.trim();
-  const audience = inpAudience.value.trim();
-  const prompt   = inpPrompt.value.trim();
+  const sector         = inpSector.value.trim();
+  const targetAudience = inpTargetAudience.value.trim();
+  const businessIdea   = inpBusinessIdea.value.trim();
+  const location       = inpLocation.value.trim();
+  const budgetMin      = inpBudgetMin.value.trim();
+  const budgetMax      = inpBudgetMax.value.trim();
+  const budgetRange    = budgetMin && budgetMax
+    ? `Rp ${parseInt(budgetMin).toLocaleString('id-ID')} – Rp ${parseInt(budgetMax).toLocaleString('id-ID')}`
+    : '';
 
-  if (!sector || !audience || !prompt) {
+  if (!sector || !targetAudience || !businessIdea || !location || !budgetMin || !budgetMax) {
     showToast('Please fill in all fields before starting.');
     return;
   }
@@ -350,10 +363,15 @@ btnStart.addEventListener('click', async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        sector_and_domain: sector,
-        audience,
-        initial_prompt:    prompt,
-        max_iterations:    parseInt(inpIterations.value, 10),
+        sector:           sector,
+        target_audience:  targetAudience,
+        business_idea:    businessIdea,
+        location:         location,
+        budget_range:     budgetRange,
+        business_model:   inpBusinessModel.value,
+        experience_level: inpExperienceLevel.value,
+        risk_tolerance:   inpRiskTolerance.value,
+        max_iterations:   parseInt(inpIterations.value, 10),
       }),
     });
     if (!res.ok) {
@@ -408,8 +426,8 @@ btnAccept.addEventListener('click', () => {
 btnRevise.addEventListener('click', async () => {
   const fb = reviewFeedback.value.trim();
   if (!fb) { showToast('Enter feedback to guide the revision.'); return; }
-  const newPrompt     = inpPrompt.value.trim() + '\n\n[Revision request]: ' + fb;
-  inpPrompt.value     = newPrompt;
+  const newPrompt         = inpBusinessIdea.value.trim() + '\n\n[Revision request]: ' + fb;
+  inpBusinessIdea.value   = newPrompt;
   reviewFeedback.value = '';
   tabReviewBtn.classList.add('disabled');
   reportContent.innerHTML = '';
@@ -516,9 +534,9 @@ async function loadSessionDetail(stateId) {
       showToast('This session has no final report yet.');
     }
 
-    inpSector.value   = detail.sector || '';
-    inpAudience.value = detail.audience || '';
-    inpPrompt.value   = detail.prompt || '';
+    inpSector.value          = detail.sector || '';
+    inpTargetAudience.value  = detail.target_audience || '';
+    inpBusinessIdea.value    = detail.prompt || '';
   } catch (e) {
     showToast('Could not load session: ' + e.message);
   }

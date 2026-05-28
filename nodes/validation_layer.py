@@ -20,6 +20,7 @@ import logging
 import time
 from typing import Any
 
+from functions.agent_utils import _emit_event
 from states.schema import (
     ContradictionFlag,
     EBPState,
@@ -330,6 +331,13 @@ def validation_layer_node(state: EBPState) -> dict[str, Any]:
     )
     logger.debug(f"✓ Validation Layer selesai dalam {time.perf_counter() - t_start:.2f}s")
     logger.debug("=" * 60)
+
+    _emit_event({
+        "type": "agent_complete",
+        "agent": "validation_layer",
+        "label": "Validation Layer",
+        "messages": [],
+    })
 
     return {
         "validation_report": report,

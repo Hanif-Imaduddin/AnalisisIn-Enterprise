@@ -181,9 +181,9 @@ def list_sessions(user_id: str = "default_user") -> list[dict]:
         created = doc.get("created_at")
         sessions.append({
             "state_id": doc["state_id"],
-            "sector": bc.get("sector_and_domain", ""),
-            "audience": bc.get("audience", ""),
-            "prompt": bc.get("initial_prompt", ""),
+            "sector": bc.get("sector", ""),
+            "target_audience": bc.get("target_audience", ""),
+            "prompt": bc.get("business_idea", ""),
             "approval_status": doc.get("approval_status", "pending"),
             "has_report": bool(doc.get("final_result")),
             "created_at": created.isoformat() if isinstance(created, datetime) else None,
@@ -216,9 +216,9 @@ def get_session_detail(state_id: str) -> Optional[dict]:
     created = doc.get("created_at")
     return {
         "state_id": doc["state_id"],
-        "sector": bc.get("sector_and_domain", ""),
-        "audience": bc.get("audience", ""),
-        "prompt": bc.get("initial_prompt", ""),
+        "sector": bc.get("sector", ""),
+        "target_audience": bc.get("target_audience", ""),
+        "prompt": bc.get("business_idea", ""),
         "approval_status": doc.get("approval_status", "pending"),
         "final_result": doc.get("final_result"),
         "orchestrator_feedback": doc.get("orchestrator_feedback"),

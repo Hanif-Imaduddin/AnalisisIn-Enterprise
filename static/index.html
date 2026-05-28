@@ -69,13 +69,52 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Target Audience</label>
-              <input id="inp-audience" type="text" class="form-control form-control-sm"
+              <input id="inp-target-audience" type="text" class="form-control form-control-sm"
                      placeholder="e.g. College students, SMEs" />
             </div>
             <div class="mb-3">
               <label class="form-label">Business Idea</label>
-              <textarea id="inp-prompt" class="form-control form-control-sm" rows="5"
+              <textarea id="inp-business-idea" class="form-control form-control-sm" rows="4"
                         placeholder="Describe your business idea in detail…"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Location</label>
+              <input id="inp-location" type="text" class="form-control form-control-sm"
+                     placeholder="e.g. Jakarta, Surabaya, Bandung" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Budget Range</label>
+              <div class="d-flex align-items-center gap-2">
+                <input id="inp-budget-min" type="number" class="form-control form-control-sm"
+                       placeholder="Min (Rp)" min="0" step="100000" />
+                <span class="text-muted">–</span>
+                <input id="inp-budget-max" type="number" class="form-control form-control-sm"
+                       placeholder="Max (Rp)" min="0" step="100000" />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Business Model</label>
+              <select id="inp-business-model" class="form-select form-select-sm">
+                <option value="online">Online</option>
+                <option value="offline">Offline</option>
+                <option value="hybrid" selected>Hybrid</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Experience Level</label>
+              <select id="inp-experience-level" class="form-select form-select-sm">
+                <option value="beginner" selected>Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="experienced">Experienced</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Risk Tolerance</label>
+              <select id="inp-risk-tolerance" class="form-select form-select-sm">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
             </div>
             <div class="mb-3">
               <label class="form-label">Max Iterations</label>

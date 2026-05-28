@@ -114,9 +114,14 @@ def _get_user_session(user_id: str) -> _UserSession:
 # ── Pydantic models ────────────────────────────────────────────────────────────
 
 class StartRequest(BaseModel):
-    sector_and_domain: str
-    audience: str
-    initial_prompt: str
+    sector: str
+    target_audience: str
+    business_idea: str
+    location: str
+    budget_range: str
+    business_model: str
+    experience_level: str
+    risk_tolerance: str
     max_iterations: int = 3
 
 
@@ -168,10 +173,8 @@ def _parse_chunk(chunk: dict, session: _UserSession) -> None:
         if not isinstance(updates, dict):
             continue
 
-        label = _AGENT_LABELS.get(node_name, node_name)
-        messages = _extract_messages_full(updates)
-
         if node_name == "lead_orchestrator":
+            label = _AGENT_LABELS.get(node_name, node_name)
             status = updates.get("approval_status", "pending")
             feedback = updates.get("orchestrator_feedback") or ""
             iteration = updates.get("iteration", 0)
@@ -187,14 +190,6 @@ def _parse_chunk(chunk: dict, session: _UserSession) -> None:
         elif node_name == "final_summary":
             final_md = updates.get("final_result", "")
             session.emit({"type": "final_result", "content": final_md})
-
-        else:
-            session.emit({
-                "type": "agent_complete",
-                "agent": node_name,
-                "label": label,
-                "messages": messages,
-            })
 
 
 def _get_interrupt_data(thread_config: dict) -> dict:
@@ -383,9 +378,14 @@ async def start_session(req: StartRequest, current_user: dict = Depends(get_curr
             )
 
     constraints = BusinessConstraints(
-        sector_and_domain=req.sector_and_domain,
-        audience=req.audience,
-        initial_prompt=req.initial_prompt,
+        sector=req.sector,
+        target_audience=req.target_audience,
+        business_idea=req.business_idea,
+        location=req.location,
+        budget_range=req.budget_range,
+        business_model=req.business_model,
+        experience_level=req.experience_level,
+        risk_tolerance=req.risk_tolerance,
     )
     initial_state = create_new_state(
         constraints=constraints,
@@ -409,7 +409,7 @@ async def start_session(req: StartRequest, current_user: dict = Depends(get_curr
             current_user["user_id"],
             current_user["username"],
             state_id,
-            req.sector_and_domain,
+            req.sector,
         )
     except Exception:
         pass

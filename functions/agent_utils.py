@@ -467,6 +467,24 @@ def run_planned_search_loop(
     )
     new_messages.extend(followup_msgs)
 
+    # Emit agent_complete directly so it always reaches the UI even when
+    # LangGraph does not yield the node's stream chunk (e.g. when the next
+    # node calls interrupt() before the stream flushes pending updates).
+    complete_msgs = []
+    for m in new_messages:
+        content = getattr(m, "content", "") or ""
+        if isinstance(content, list):
+            content = " ".join(str(c) for c in content if c)
+        content_str = str(content).strip() if content else ""
+        if content_str:
+            msg_type = getattr(m, "type", "ai")
+            tool_name = getattr(m, "name", "") or ""
+            entry: dict = {"type": str(msg_type), "content": content_str}
+            if tool_name:
+                entry["tool_name"] = str(tool_name)
+            complete_msgs.append(entry)
+    _emit_event({"type": "agent_complete", "agent": agent_name, "label": label, "messages": complete_msgs})
+
     return new_messages, final_response
 
 
