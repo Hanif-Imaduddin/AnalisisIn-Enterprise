@@ -52,16 +52,15 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="AnalisisIn", lifespan=lifespan)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
-@app.middleware("http")
-async def no_cache_static(request, call_next):
-    response = await call_next(request)
-    if request.url.path.startswith("/static/"):
+class NoCacheStaticFiles(StaticFiles):
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
         response.headers["Cache-Control"] = "no-cache"
-    return response
+        return response
+
+
+app = FastAPI(title="AnalisisIn", lifespan=lifespan)
+app.mount("/static", NoCacheStaticFiles(directory="static"), name="static")
 
 # ── Include routers ────────────────────────────────────────────────────────────
 from routers.auth_router import router as auth_router
