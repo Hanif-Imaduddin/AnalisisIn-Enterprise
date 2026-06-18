@@ -19,8 +19,8 @@ AnalisisIn dikembangkan oleh Kelompok 11 sebagai bagian dari proyek mata kuliah 
 AnalisisIn menggunakan pola _supervisor multi-agent_ yang diorkestrasikan menggunakan kerangka kerja **LangGraph**. Seluruh alur kerja dikontrol oleh satu agen pusat (_Lead Orchestrator_) yang mendistribusikan tugas ke empat agen spesialis secara berurutan, kemudian mengevaluasi hasil dari seluruh agen untuk menentukan apakah rencana bisnis layak diterima atau perlu direvisi.
 
 ### Alur Graph
-
-![Alur Graph AnalisisIn](Graph%20Flow.svg)
+<img width="1052" height="481" alt="Flowchart Capstone" src="https://github.com/user-attachments/assets/a91ad2f0-fb3e-4082-abd0-0000178c1993" />
+![Alur Graph AnalisisIn]
 
 Orkestrasi bersifat iteratif; jika `approval_status` masih `rejected` dan jumlah iterasi belum mencapai `max_iterations`, pipeline akan kembali dijalankan dari Market Scout hingga seluruh laporan direvisi dan dievaluasi ulang.
 
